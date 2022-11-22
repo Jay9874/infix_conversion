@@ -1,41 +1,50 @@
 var prioArray = [
     {
-        sign : "(",
-        value : 1,
+        sign: "(",
+        value: 1,
     },
     {
-        sign : "+",
-        value : 2,
+        sign: "+",
+        value: 2,
     },
     {
-        sign : "-",
-        value : 2,
+        sign: "-",
+        value: 2,
     },
     {
-        sign : "*",
-        value : 3,
+        sign: "*",
+        value: 3,
     },
     {
-        sign : "/",
-        value : 3,
+        sign: "/",
+        value: 3,
     },
     {
-        sign : "^",
-        value : 4,
+        sign: "^",
+        value: 4,
     },
 ]
 
 var infix = "";
 var numberButton = document.querySelectorAll(".conv-btn").length;
-for(var i=0; i<numberButton; i++){
-    document.querySelectorAll(".conv-btn")[i].addEventListener("click", function(){
+for (var i = 0; i < numberButton; i++) {
+    document.querySelectorAll(".conv-btn")[i].addEventListener("click", function () {
         infix = document.getElementById("infixExp").value;
         var askedConv = this.innerHTML;
-        if(askedConv == "Convert" || askedConv == "Evaluate"){
+        // if (askedConv == "Convert" || askedConv == "Evaluate") {
+        if (askedConv == "Convert") {
             var postfix = toPostfix(infix);
             var prefix = toPrefix(infix);
             document.querySelector(".postfix-answer-text").innerHTML = postfix;
             document.querySelector(".prefix-answer-text").innerHTML = prefix;
+        }
+        if (askedConv == "Evaluate") {
+            var postfix = toPostfix(infix);
+            var prefix = toPrefix(infix);
+            var evalpost = eval_post(postfix);
+            // var evalprefix = toPrefix(infix);
+            document.querySelector(".postfix-eval-text").innerHTML = evalpost;
+            document.querySelector(".prefix-eval-text").innerHTML = "Work In Progress";
         }
     });
 }
@@ -43,18 +52,18 @@ for(var i=0; i<numberButton; i++){
 
 
 // Checks the preference of the scanned element with stack top element
-function priorityChecker(topElement, scnElement){
+function priorityChecker(topElement, scnElement) {
     var topVal;
     var scnVal;
-    for(var i=0; i<6; i++){
-        if(prioArray[i].sign == topElement){
+    for (var i = 0; i < 6; i++) {
+        if (prioArray[i].sign == topElement) {
             topVal = prioArray[i].value;
         }
-        if(prioArray[i].sign == scnElement){
+        if (prioArray[i].sign == scnElement) {
             scnVal = prioArray[i].value;
         }
     }
-    if(topVal < scnVal){
+    if (topVal < scnVal) {
         return false;
     }
     else {
@@ -64,41 +73,41 @@ function priorityChecker(topElement, scnElement){
 
 
 // Do all the conversions.
-function doCalculation(postfix, n, st, infix){
+function doCalculation(postfix, n, st, infix) {
 
     var asciiVal;
-    for(var i=0; i<n; i++){
+    for (var i = 0; i < n; i++) {
         asciiVal = infix[i].charCodeAt(0);
-        if((asciiVal >= 65 && asciiVal <= 90) || (asciiVal >= 97 && asciiVal <=122) || (asciiVal >= 48 && asciiVal <= 57)){
+        if ((asciiVal >= 65 && asciiVal <= 90) || (asciiVal >= 97 && asciiVal <= 122) || (asciiVal >= 48 && asciiVal <= 57)) {
             postfix += infix[i];
-            console.log("scanned ele: "+infix[i]+" stack: "+st+" postfix: "+postfix);
+            console.log("scanned ele: " + infix[i] + " stack: " + st + " postfix: " + postfix);
         }
-        else if(infix[i] == "("){
+        else if (infix[i] == "(") {
             st.push(infix[i]);
-            console.log("scanned ele: "+infix[i]+" stack: "+st+" postfix: "+postfix);
+            console.log("scanned ele: " + infix[i] + " stack: " + st + " postfix: " + postfix);
         }
-        else if(infix[i] == ")"){
-            var topElement = st[st.length-1];
-            console.log("stack: "+st+" postfix: "+postfix);
-            while(topElement != "("){
-                console.log("top in while is: "+topElement);
+        else if (infix[i] == ")") {
+            var topElement = st[st.length - 1];
+            console.log("stack: " + st + " postfix: " + postfix);
+            while (topElement != "(") {
+                console.log("top in while is: " + topElement);
                 var tmp = st.pop()
                 postfix += tmp;
-                topElement = st[st.length-1];
+                topElement = st[st.length - 1];
             }
-            console.log("top in while is: "+topElement);
+            console.log("top in while is: " + topElement);
             st.pop();
         }
         else {
-            var isGreater = priorityChecker(st[st.length-1], infix[i]);
-            while(isGreater){
+            var isGreater = priorityChecker(st[st.length - 1], infix[i]);
+            while (isGreater) {
                 var tmp = st.pop();
                 postfix += tmp;
-                console.log("scanned ele: "+infix[i]+" stack: "+st+" postfix: "+postfix);
-                isGreater = priorityChecker(st[st.length-1], infix[i]);
+                console.log("scanned ele: " + infix[i] + " stack: " + st + " postfix: " + postfix);
+                isGreater = priorityChecker(st[st.length - 1], infix[i]);
             }
             st.push(infix[i]);
-            console.log("scanned ele: "+infix[i]+" stack: "+st+" postfix: "+postfix);
+            console.log("scanned ele: " + infix[i] + " stack: " + st + " postfix: " + postfix);
         }
     }
     return postfix;
@@ -106,15 +115,15 @@ function doCalculation(postfix, n, st, infix){
 
 
 // Reverse the given expression with conditions
-function strrev(strng){
+function strrev(strng) {
     var tmp = "";
-    console.log("given str: "+strng);
-    for(var i=strng.length-1; i>=0; i--){
-        if(strng[i] == "(") strng[i] = ")";
-        else if(strng[i] == ")") strng[i] = "(";
+    console.log("given str: " + strng);
+    for (var i = strng.length - 1; i >= 0; i--) {
+        if (strng[i] == "(") strng[i] = ")";
+        else if (strng[i] == ")") strng[i] = "(";
         tmp += strng[i];
     }
-    console.log("reversed: "+tmp);
+    console.log("reversed: " + tmp);
     return tmp;
 }
 
@@ -123,7 +132,7 @@ function strrev(strng){
 
 
 // Carry out the postfix conversion
-function toPostfix(infix){
+function toPostfix(infix) {
     var st = [];
     var postfix = "";
     var n = infix.length;
@@ -134,7 +143,7 @@ function toPostfix(infix){
 
 //  Carry out the prefix conversion
 
-function toPrefix(infix){
+function toPrefix(infix) {
     var tmpArr = infix.split("");
     infix = strrev(tmpArr);
     var st = [];
@@ -145,6 +154,57 @@ function toPrefix(infix){
     prefix = strrev(tmpArr);
     return prefix;
 }
+
+function eval_post(post) {
+    // Input Infix(9-((3*4)+8)/4)
+    var evalArr = [];
+
+    // For Iterating through entire passed Postfix Expression(post)
+    for (var i = 0; i < post.length; i++) {
+        // Scanned Elements from the passed Postfix Expression(post)
+        var scan = post[i];
+
+        // If the Scanned Element(scan) is a number, directly push it into stack(evalArr)
+        if (!isNaN(parseInt(scan))) {
+            evalArr.push(scan.charCodeAt(0) - '0'.charCodeAt(0));
+        }
+        // If the Scanned Element(scan) is an operand then perform the operand calculation with the two Popped value
+        else {
+            let val1 = evalArr.pop();
+            let val2 = evalArr.pop();
+
+            switch (scan) {
+                
+                case '+':
+                    evalArr.push(val2 + val1);
+                    break;
+
+                case '-':
+                    evalArr.push(val2 - val1);
+                    break;
+                
+                case '/':
+                    evalArr.push(val2 / val1);
+                    break;
+
+                case '*':
+                    evalArr.push(val2 * val1);
+                    break;
+
+                case '^':
+                    evalArr.push(Math.pow(val2, val1));
+                    break;
+                
+            }
+        }
+    }
+
+    //Converting Array to String for displaying the result through innerHTML
+    var evalStr = evalArr.toString();
+    console.log("Postfix Evaluation Result: " + evalStr);
+    return evalArr.pop();
+}
+
 
 
 
