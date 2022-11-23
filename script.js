@@ -153,7 +153,9 @@ function toPrefix(infix) {
 
 // Function for Postfix Evaluation of Infix Expression
 function eval_post(post) {
-    // Input Infix(9-((3*4)+8)/4)
+    // Input Infix Expression --> (9-((3*4)+8)/4)
+
+    // Creating an Empty Array for the Postfix Evaluation
     var evalArr = [];
 
     // For Iterating through entire passed Postfix Expression(post)
@@ -167,11 +169,11 @@ function eval_post(post) {
         }
         // If the Scanned Element(scan) is an mathematical operator then perform the operand calculation with the two Popped value
         else {
+            // Iniatialization & Declaration of popped operands
             let val1 = evalArr.pop();
             let val2 = evalArr.pop();
 
             switch (scan) {
-
                 case '+':
                     evalArr.push(val2 + val1);
                     break;
@@ -191,7 +193,6 @@ function eval_post(post) {
                 case '^':
                     evalArr.push(Math.pow(val2, val1));
                     break;
-
             }
         }
     }
@@ -205,25 +206,29 @@ function eval_post(post) {
 
 // Function for Prefix Evaluation of Infix Expression
 function eval_pref(pref) {
-    // Input Infix (5*(4+3)^2)
+    // Input Infix Expression --> (5*(4+3)^2)
+
+    // Creating an Empty Array for the Prefix Evaluation
     evalArr = [];
 
     // For Iterating through entire passed Prefix Expression(pref)
     for (var i = pref.length - 1; i >= 0; i--) {
+
         // Scanned Elements from the passed Prefix Expression(pref)
-        var scan = pref[i];
+        var scan = pref[i]; 
 
         // If the Scanned Element(scan) is a operand, directly push it into stack(evalArr)
         if (!isNaN(parseInt(scan))) {
             evalArr.push(scan.charCodeAt(0) - '0'.charCodeAt(0));
         }
+
         // If the Scanned Element(scan) is an mathematical operator then perform the operand calculation with the two Popped value
         else {
+            // Iniatialization & Declaration of popped operands
             let val1 = evalArr.pop();
             let val2 = evalArr.pop();
 
             switch (scan) {
-
                 case '+':
                     evalArr.push(val2 + val1);
                     break;
@@ -243,11 +248,11 @@ function eval_pref(pref) {
                 case '^':
                     evalArr.push(Math.pow(val2, val1));
                     break;
-
             }
         }
 
     }
+
     //Converting Array to String for displaying the result through innerHTML
     var evalStr = evalArr.toString();
     console.log("Prefix Evaluation Result: " + evalStr);
