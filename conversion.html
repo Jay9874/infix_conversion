@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infix to Postfix/Prefix</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Infix Expression Conversion</title>
 
     <!-- Favicon -->
     <link rel="icon" href="images/conversion.png">
@@ -22,11 +23,16 @@
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/27a53a076c.js" crossorigin="anonymous"></script>
+
+
+
 </head>
 
 <body>
 
     <section id="introduction">
+
+
         <!-- Nav Bar -->
         <nav class="navbar navbar-expand-md intro-navbar">
             <div class="container-fluid">
@@ -71,25 +77,41 @@
             <h1 class="selector-heading">
                 INFIX ☞ PREFIX & POSTFIX
             </h1>
-            <p class="tool-description">This is a simple Infix to Prefix or Postfix Operations dialog.</p>
+            <p class="tool-description">This is a simple Infix to Prefix or Postfix Converter dialog.</p>
             <hr class="tool-desc-line">
         </div>
         <div class="helper-text">
             <h3>
-                CHOOSE AN OPERATION
+                Enter the infix expression in the box and click Convert
             </h3>
+            <p>
+                Type the expression without Space and with Open & Close Brackets
+            </p>
+            <div class="format-shower">
+                <p>
+                    format 1: (5*4+(8^1-6)^5)
+                    <br>
+                    format 2: (A*B+(C^D-E)^H)
+                </p>
+            </div>
         </div>
-
+        <div class="input-field">
+            <input id="infixExp" class="expression-field" type="text" placeholder="Expression" aria-label="text">
+            <hr class="btn-seperator">
+        </div>
         <div class="action-buttons">
-            <a href="./conversion.html">
-                <button type="button" id="action-btn" class="btn btn-primary conv-btn">Expression Conversion</button>
-            </a>
-            <a href="./evaluation.html">
-                <button type="button" id="action-btn" class="btn btn-warning conv-btn">Expression Evaluation</button>
-            </a>
-        </div>
+            <button type="button" id="action-btn" class="btn btn-primary conv-btn" onclick="postfix">Convert</button>
 
-        <hr class="btn-seperator">
+        </div>
+        <div class="results-conversion">
+            <span class="postfix-result">Postfix:
+            <span class="postfix-answer-text"></span>
+            </span>
+            <br />
+            <span class="prefix-result">Prefix:
+            <span class="prefix-answer-text"></span>
+            </span>
+        </div>
 
         <div class="contributor">
             <p class="contributor-name">By Jay & Shubham</p>
