@@ -42,13 +42,13 @@ for (var i = 0; i < numberButton; i++) {
             var postfix = toPostfix(infix);
             var prefix = toPrefix(infix);
             var evalpost = eval_post(postfix);
+            var evalpref = eval_pref(prefix);
             // var evalprefix = toPrefix(infix);
             document.querySelector(".postfix-eval-text").innerHTML = evalpost;
-            document.querySelector(".prefix-eval-text").innerHTML = "Work In Progress";
+            document.querySelector(".prefix-eval-text").innerHTML = evalpref;
         }
     });
 }
-
 
 
 // Checks the preference of the scanned element with stack top element
@@ -128,9 +128,6 @@ function strrev(strng) {
 }
 
 
-
-
-
 // Carry out the postfix conversion
 function toPostfix(infix) {
     var st = [];
@@ -140,9 +137,7 @@ function toPostfix(infix) {
 }
 
 
-
 //  Carry out the prefix conversion
-
 function toPrefix(infix) {
     var tmpArr = infix.split("");
     infix = strrev(tmpArr);
@@ -155,6 +150,8 @@ function toPrefix(infix) {
     return prefix;
 }
 
+
+// Function for Postfix Evaluation of Infix Expression
 function eval_post(post) {
     // Input Infix(9-((3*4)+8)/4)
     var evalArr = [];
@@ -164,17 +161,17 @@ function eval_post(post) {
         // Scanned Elements from the passed Postfix Expression(post)
         var scan = post[i];
 
-        // If the Scanned Element(scan) is a number, directly push it into stack(evalArr)
+        // If the Scanned Element(scan) is a operand, directly push it into stack(evalArr)
         if (!isNaN(parseInt(scan))) {
             evalArr.push(scan.charCodeAt(0) - '0'.charCodeAt(0));
         }
-        // If the Scanned Element(scan) is an operand then perform the operand calculation with the two Popped value
+        // If the Scanned Element(scan) is an mathematical operator then perform the operand calculation with the two Popped value
         else {
             let val1 = evalArr.pop();
             let val2 = evalArr.pop();
 
             switch (scan) {
-                
+
                 case '+':
                     evalArr.push(val2 + val1);
                     break;
@@ -182,7 +179,7 @@ function eval_post(post) {
                 case '-':
                     evalArr.push(val2 - val1);
                     break;
-                
+
                 case '/':
                     evalArr.push(val2 / val1);
                     break;
@@ -194,7 +191,7 @@ function eval_post(post) {
                 case '^':
                     evalArr.push(Math.pow(val2, val1));
                     break;
-                
+
             }
         }
     }
@@ -206,7 +203,56 @@ function eval_post(post) {
 }
 
 
+// Function for Prefix Evaluation of Infix Expression
+function eval_pref(pref) {
+    // Input Infix (5*(4+3)^2)
+    evalArr = [];
 
+    // For Iterating through entire passed Prefix Expression(pref)
+    for (var i = pref.length - 1; i >= 0; i--) {
+        // Scanned Elements from the passed Prefix Expression(pref)
+        var scan = pref[i];
+
+        // If the Scanned Element(scan) is a operand, directly push it into stack(evalArr)
+        if (!isNaN(parseInt(scan))) {
+            evalArr.push(scan.charCodeAt(0) - '0'.charCodeAt(0));
+        }
+        // If the Scanned Element(scan) is an mathematical operator then perform the operand calculation with the two Popped value
+        else {
+            let val1 = evalArr.pop();
+            let val2 = evalArr.pop();
+
+            switch (scan) {
+
+                case '+':
+                    evalArr.push(val2 + val1);
+                    break;
+
+                case '-':
+                    evalArr.push(val2 - val1);
+                    break;
+
+                case '/':
+                    evalArr.push(val2 / val1);
+                    break;
+
+                case '*':
+                    evalArr.push(val2 * val1);
+                    break;
+
+                case '^':
+                    evalArr.push(Math.pow(val2, val1));
+                    break;
+
+            }
+        }
+
+    }
+    //Converting Array to String for displaying the result through innerHTML
+    var evalStr = evalArr.toString();
+    console.log("Prefix Evaluation Result: " + evalStr);
+    return evalArr.pop();
+}
 
 
 
